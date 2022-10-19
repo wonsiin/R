@@ -256,3 +256,75 @@ names(mpg)
 lm(data = mpg, hwy ~ displ + drv + year + cyl + fl + class)
 lm.mpg3 <- lm(data = mpg, hwy ~ displ + drv + year + cyl + fl + class) # y= x1+ x2 + x3 + x4 + x5 + x6 라는 의미다.
 summary(lm.mpg3)
+
+# 데이터리터러시(R)
+# R Fundamentals
+# 데이터 분석도구 
+#1. 변수 2. 함수 3. 리스트 
+#4. 데이터프레임 5. 패키지 6. 데이터 분석 & 가공
+#0. 데이터 분석도구 ----
+# 데이터 형태에 따라 담는 그릇도 달리하는 것이...
+#Data Object Type <- 데이터 처리 -> 변수 함수 패키지
+# 1. Vector 2. Matrix 3. data.frame 4.Array 5. List
+#Data Object Type-1        0)스칼라(Scalar):하나의 데이터 값
+#1) 백터 (Vector) : 1차원 배열개념
+# -단일형 데이터(문자 or 숫자 or 논리)
+#장점 : 심플 빠름 , 단점 : 문자 숫자 논리중 하나만 들어가야함
+#2) 행렬 (Matrix,매트릭스):2차원
+# - 단일형 데이터(문자 or 숫자 or 논리)
+# - 행렬 간의 사칙연산 등의 목적으로 사용
+#3) 데이터프레임(data.frame):2차원
+
+#4)배열(Array,어레이):다차원(2차원 이상) 이게 있어서 영상이 처리가됨 
+#- 단일형 데이터(문자 or 숫자 or 논리)
+#5)리스트(list): 1차원 응용(복잡한 데이터 유형 처리)
+# -다중형데이터
+# -여러 객체들의모음 (object's collection)
+# (백터,행렬, 배열, 데이터프레임, 리스트 등)
+# -key와 value로 구성된 해시맵(hashmap)
+#Data Type (Data Object에 들어가는 값)
+# 숫자 : numeric, double(실수),integer(정수),complex(복소수)
+# 문자 : character
+# 논리 : logical
+# 그외 : null/na/NaN/Inf
+#숫자분류 :
+# 실수 (Real numbers) : 실수:a(double) 
+#         무리수 : 숫자가 안끊킴  유리수 : 끝이있음
+#                           정수: 소수점 이하          분수,소수
+#                     양수(자연수) 0(ZERO) 음수:-X
+#허수(i)
+#Imaginary numbers
+#<가우스>Lateral Number 
+#x+y = 10, xy = 40
+#우주과학, 양자역학등
+# 복소수
+#COMPLEX NUMBERS
+#a+bi
+#실수a,b 허수i
+#전자 제어 컴퓨터 등
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
