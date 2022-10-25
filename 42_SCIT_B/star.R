@@ -246,6 +246,321 @@ r2[c(1,6,11,2,7,12,3,8,13,4,9,14,5,10,15)]
 r2[order(r2)]
 sort(r2)
 
+# 7-3) rank()
+?rank()
+rank(a)   # 작은 수치가 1위
+rank(-a)  # 큰수치가 1위
+
+# NA 표기
+a
+rank(a)
+rank(a, na.last=T)
+rank(a, na.last=F)
+rank(a, na.last="keep") #NA순위를 없앤다다(na 제외 후 처리)
+rank(a, na.last=NA) #NA를 제거
+
+### 8) named vector ----
+data(package = "datasets")
+?islands
+
+class(islands)
+head(islands)
+str(islands)
+
+?hist()
+hist(islands)
+
+search()
+?ggplot2::qplot() #특정 함수 패키지를 메모리에 안올리고 사용하겟다는 의미
+ggplot2::qplot(islands)
+
+#named vector -1
+cc2<-c(a=1,b=1,b=1,a=2,c=2,a=3)
+class(cc2)
+cc2
+hist(cc2)
+ggplot2::qplot(cc2)
+#named vector -2
+xx <- c(20,50,80)
+xx
+class(xx)
+
+names(xx)<- c("R","Python","Java")
+xx
+names(xx)
+
+### 9) factor data ----
+print("====data======")
+aa <- c(1,1,1,2,2,2,3,3,4,5,5,6,7)
+aa
+class(aa)
+typeof(aa) #mode(aa)
+
+#levels(aa)
+#nlevels(aa)
+#is.factor(aa)
+
+print("===== factor data ======")
+f.aa <- as.factor(aa)
+f.aa
+class(f.aa)
+levels(f.aa)
+nlevels(f.aa)
+is.factor(f.aa)
+
+
+levels(f.aa)[3] #3번째 값을 가져오기기
+ff <- levels(f.aa)
+ff
+ff[3] #== levels(f.aa)[3]
+
+### 10) data type is.***, as.*** ----
+
+# 문자변수 선언
+yy<-c("김","정","수","김","수")
+yy
+class(yy)
+is.factor(yy)#false
+
+# factor 변환 및 확인 (몇가지 인가 확인할때 사용)
+# char 로 되어있는것을 범주형으로 바꿔주면 숫자로 표시가 되어 ----
+# 인공지능에 효율적이다. 무조건 이렇게 사용해야한다.
+as.factor(yy)
+mm <- as.factor(yy)
+is.factor(as.factor(yy))
+class(as.factor(yy))
+typeof(as.factor(yy))
+mode(as.factor(yy))
+typeof(mm)
+mm
+
+### 11) Dts object Type ----
+
+# 11-1) 명목형 & 순서형 factor
+
+# 명목형 factor
+f1 <- factor(c("a","a","a","b","b","c"))
+f1
+
+class(f1)
+typeof(f1)
+is.factor(f1)
+is.ordered(f1)
+
+#순서형 factor
+f2 <- factor(c("a","a","a","b","b","c"))
+
+class(f2)
+typeof(f2)
+is.factor(f2)
+is.ordered(f2)
+
+# 11-2) 행렬(matrix)
+v1 <- c(1:20)
+v1
+class(v1)
+
+m1 <- matrix(v1,4,5)
+# 함수 : matrix(dts, 행, 열, byrow=F)----
+m1
+
+matrix(m1, nrow=4, ncol = 5) # == matrix(v1,4,5)
+matrix(m1, nrow=4, ncol = 5,byrow=T) # 행 기준으로 진행된다.
+
+matrix(m1,nrow=4,ncol = 10) #데이터를 다시 재정의 한다.
+matrix(m1,nrow=4,ncol = 10,byrow=T)
+matrix(m1,nrow=5,ncol = 10,byrow=T)
+matrix(m1,nrow=3,ncol = 10,byrow=T)
+
+# 11-3) 배열(array)
+
+# 2차원
+
+v2 <- rep(1:100, length.out=20)
+v2
+ar2 <- array(v2,dim=c(2,10))
+class(ar2)
+#array 와 matrix랑 같다 (2차원일 경우 유사하다)
+typeof(ar2)
+
+# 3차원
+ar3 <- array(v2,dim=c(2,5,4))
+ar3
+class(ar3)
+# 3차원인경우 array
+dim(ar3)
+# 행 , 열 , 그외          행과 열 = 2차원 , 행과열을 묶어놓은곳 = 3차원
+#[행, 열, 3차원]
+ar3
+ar3[2, , ] #2행의 값을 다 가져온것이다.
+ar3[2,2,] # 2행 2열의 값을 다 가져온다.
+ar3[2,2,3]
+ar3[2,5,3]
+
+# 11-4) data.frame # == table
+
+v2
+class(v2)
+dim(v2)
+df.a <- data.frame(v2)
+
+v2
+df.a
+dim(df.a)
+typeof(df.a)
+typeof(df.a$v2)
+
+# 11-5) list ----
+#list 는 놓치는게 없다.
+test.a <- seq(10,100,by=5)
+test.a
+class(test.a)
+typeof(test.a)
+
+#list로 담기
+list.a2 <- list(test.a,"김정수",df.a,ar2)
+class(list.a2)
+typeof(list.a2)
+list.a2
+#방에 무조건 값을 다 담는다.
+
+#Q 퀴즈
+length(list.a2)
+list.a2
+list.a2[2] #list형태로
+list.a2[1]
+# list는 백터다 매우 큰 백터 
+# list 2번째 데이터를 가져오는데 그또한 list다. 값을 가져와도 list형태태
+# 가로 2개는 list 내부의 값을 보여준다.
+list.a2[[1]] #data 프레임 형태로
+list.a2[[2]]
+
+list.a2[1]
+class(list.a2[1])
+list.a2[[1]]
+class(list.a2[[1]])
+
+list.a2[2]
+class(list.a2[2])
+list.a2[[2]]
+class(list.a2[[2]])
+
+list.a2[3]
+class(list.a2[3])
+list.a2[[3]]
+class(list.a2[[3]])
+
+#Q
+
+a1 <- c(1:3)
+a2 <- c(10:15)
+#a3 <- c(20:30)
+a3 <- c(20:31)
+a1
+a2
+a3
+length(a3)
+data.frame(a1)
+data.frame(a1,a2)
+data.frame(a1,a2,a3)
+# err가 나는 이유는?  칸 수가 안맞아서
+
+
+
+# 2. 함수(function) ----
+
+### 0) 함수 샘플 ----
+library()
+Sys.Date()
+Sys.time()
+
+sum(10:20)
+my_mpg <- ggplot2::mpg
+class(my_mpg)
+mean(my_mpg$cty)
+max(my_mpg$cty)
+min(my_mpg$cty)
+hist(my_mpg$cty)
+# SQL 활용 ----
+install.packages("sqldf")
+library(sqldf)
+search()
+
+names(my_mpg)
+# SQL > select model, year from my_mpg ----
+# 5줄만 읽는다. sql문 사용
+sqldf("select model, year from my_mpg
+      limit 5
+      ")
+
+# 1) print() & cat() ----
+print("이태규")
+#print("이태규","이시헌") 는 하나의 값만 출력 여러개는 불가능 err다
+cat("이태규","이시헌")
+cat("이태규","\n","이시헌","김혁")
+cat("이태규","\n","이시헌","\n","김혁")
+
+#fill 을 사용하면 앞에 띄어지는 부분이있는경우 사용용
+cat("이태규","이시헌","김혁",fill=1)
+print(1);print(2) # print는 나열해서 사용해야한다
+cat(1);cat(2) #cat은 2개로 만들면 문자열 합치기가 된다.
+
+# 2) 문자처리함수(paste()) ----
+h1 <- "aaa";h1;length(h1)
+h2 <- "Hello R programming~";h2;length(h2)
+h3 <- c("Hello","R","programming~");h3;length(h3)
+h3
+#error ----
+h1+h2
+h1+3
+
+#
+paste(h3)
+paste(h3,collapse = " + ")
+paste(h3,collapse = " ^^; ")
+paste(h3,collapse = " ")
+length(paste(h3,collapse = " "))
+
+#error ok ----
+h1+h2
+paste(h1,h2)
+h1+3
+paste(h1,3)
+
+### 3) 내장함수 ----
+ls()
+rm(list=ls())
+
+#dts 로딩딩
+getwd()
+my_ex <- read.csv("dts/ss_exam.csv")
+class(my_ex)
+names(my_ex)
+dim(my_ex)
+head(my_ex)
+
+# [행,열], [index] 행과 열이 없으면 컨샙이다
+my_ex
+my_ex[2,] #2행 전체
+my_ex[,3] #3열 전체-v 백터
+my_ex[3] #3열 전체 -df 데이터프라임
+my_ex[c(3,5)] #3,5열 전체 -df 데이터프라임
+my_ex[c("database","japan")] #3,5열 전체 -df 데이터프라임
+
+my_ex[2,3]
+
+View(my_ex)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
