@@ -8,7 +8,7 @@ search()
 
 url="https://search.naver.com/search.naver?where=news&sm=tab_jum&query=%EB%B6%81%ED%95%9C"
 url
-
+?text
 text <- read_html(url, encoding = "UTF-8")
 text
 #xml형식으로 읽힌다.
@@ -18,6 +18,20 @@ class(text)
 text %>% 
   html_nodes(xpath='//*[@class="list_news"]')-> news_list
 news_list
+
+#list_news의 값을다 긁어온다----
+url1="https://novelai.app"
+url1
+
+text <- read_html(url1, encoding = "UTF-8")
+text
+text %>% 
+  html_nodes(xpath='//*[@class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 pb-16"]')-> ai_list
+ai_list %>% 
+  html_children() %>% 
+  html_nodes(xpath='//*[@class="news_tit"]') %>% 
+  html_text() -> ai_title
+ai_title
 
 #데이터를 긁어와서 볼수있다.----
 news_list %>% 
@@ -540,6 +554,8 @@ dim(my_ex)
 head(my_ex)
 
 # [행,열], [index] 행과 열이 없으면 컨샙이다
+# + dts[] dataset
+# + function(){ 함수 구현 내용 }
 my_ex
 my_ex[2,] #2행 전체
 my_ex[,3] #3열 전체-v 백터
@@ -550,17 +566,190 @@ my_ex[c("database","japan")] #3,5열 전체 -df 데이터프라임
 my_ex[2,3]
 
 View(my_ex)
+                                             
+# Q. 2열 6열 1열
+my_ex[c(2,6,1)] |> head(2) #2줄만 읽도록하기
+# Q. id가 3인 java와 eng 출력
+my_ex [my_ex$id==3,c("java","eng")] #my_ex$ <- 지정해주는 방법 (id가 3인값 출력)
+#select java , eng from my_ex where id=3
+my_ex [3,c("java","eng")] #행이 3번째 값을 가져오는것
+#id update : 3 -> 123
+my_ex[my_ex$id ==3,"id"] <- 123 #update 방법법
+my_ex
+my_ex[my_ex$id ==7,"id"] <- 3 #update 방법법
+my_ex
+
+View(my_ex)
+
+#Q. 일본어 점수 >= 90
+# sql > select * from my_ex where japan >= 90
+my_ex[my_ex$japan >= 90,]|> head(2)
+# 일본어 점수가 >= 90 이고 영어 < 70
+my_ex[my_ex$japan>=90 & my_ex$eng>=70,]
+# 영어가 >= 60이상 id의 database와 japan
+my_ex[my_ex$eng >=60,c("database","japan","eng")]
+
+### 4) 패키지 내 함수 ----
+# 시각화, plot
+# + base::plot()      기본 plot()
+# + ggplot2::qplot()  분석 및 개발시 유용
+# + ggplot2::ggplot() 확정 보고서용
+
+search()
+my_mpg <- ggplot2::mpg
+# + SQL> create table ... as select ...;
+my_mpg
+
+#base::plot()
+?base::plot()
+my_base1 <- plot(x=my_mpg$cty) #도심연비
+my_base1 <- plot(x=my_mpg$cty, type="o")
+my_base2 <- plot(x=my_mpg$hwy) #고속도로연비
+my_base3 <- plot(x=my_mpg$cty, y=my_mpg$hwy) #cty - hwy
+
+# ggplot2::qplot()
+search()
+my_mpg1 <- ggplot2::qplot(data = my_mpg, x = cty)
+my_mpg1 <- ggplot2::qplot(data = my_mpg, x = cty,y=hwy)
+my_mpg1
+
+# 변수: drv, hwy
+names(my_mpg)
+unique(my_mpg$drv)
+my_mpg1 <- ggplot2::qplot(data = my_mpg, x = drv,y=hwy)
+my_mpg1 <- ggplot2::qplot(data = my_mpg, x = drv,y=hwy, geom="boxplot",col=drv)
+my_mpg1
+
+#사운드 패키지 ----
+install.packages("beepr")
+library(beepr)
+search()
+??beepr
+beep(2);beep(6);beep(1);beep(9);beep(8)
+### 5) 사용자 정의 함수 ----
+# 사용자정의함수명 <- function(x1,x2,...){
+#   ...
+#   함수구현
+#   ...
+#   return(결과값)
+# }
+# Q. 합계와 평균함수 ----
+my_fn <- function(a,b,c,d){
+  sum1 <- sum(a,b,c,d)
+  avg1 <- sum1/4
+  
+  cat(paste("sum : ", sum1),
+      paste("avg : ", avg1),fill=1)
+  
+  return(list(sum1, avg1)) #**중요하다다
+}
+#전체를 드래그 해주고 실행해줘야한다.
+bae_ch <- my_fn(10,12,45,60);bae_ch
+bae_ch$sum
+bae_ch$avg
+# Q. 구구단
+#조건 : 문자X , 음수 X , 10이상 X
+#반복문 : 1~9단
+
+# in 연산자 사용한 구구단 ----
+fc <- function(x){
+  if(is.numeric(x)){
+    if(x < 10 & x %in% c(1:9)){
+ #   if(x < 10 & x > 0){ 이 방법도 가능
+      for(i in 1:9){
+        y = x * i
+        cat(paste(x,"*",i,"=",y),fill=1)
+      } #for문 close
+    }else{
+      cat("1~9까지 입력하세요요.",fill=1)
+    }
+  }else{
+    cat("조건에 부합하지 않습니다.","메롱!",fill=1)
+  }
+} #function close
+
+#paste 로 묶어준다다
+for(i in 1:9){
+  cat(paste(i,"단"),fill=1)
+  for(j in 1:9){
+    y = i * j
+    cat(paste(i,"*",j,"=",y),fill=1)
+  } #for문 close
+} #function close
+fc(9)
+10 %in% c(1:9)
+fc("aa")
+is.numeric("a")
+
+### 6) 빈도함수 (table(), hist(), qplot()) ----
+# 6-1) number data
+b_num <- c(1,1,1,1,3,3,3,2,2,2,4,5,5,2,4,5)
+b_num
+class(b_num)
+typeof(b_num)
+
+# 뭐가 몇개인지 나온다. 
+table(b_num)       #빈도수            ** 주로사용
+prop.table(b_num)  # 각 데이터 빈도비율
+prop.table(table(b_num))*100  # 카테고리(범주)별 빈도비율 ** 주로사용
+
+hist(b_num)
+hist(table(b_num))
+ggplot2::qplot(b_num)    #****
+
+# 6-2) character data
+b_char <- c("a","a","a","b","b","c","a")
+b_char
+class(b_char)
+typeof(b_char)
+
+#
+table(b_char)
+prop.table(b_char) #err,data type 문제
+prop.table(table(b_char))*100
+
+#
+hist(b_char) #hist(x)에 x가 있으면 x는 숫자여야한다
+hist(table(b_char))
+ggplot2::qplot(b_char) #보기편하게 사용하기 좋음  *****
+#테이블 사용 ----
 
 
+### 7) table() 옵션 ----
 
+t1 <- c(NULL, "a","a",NULL,"b","c")
+t1
+table(t1)
+table(t1,useNA = 'no')    # NA를 표시금지 ( DEFAULT )
+table(t1,useNA = 'ifany') # NA가 있으면 표시
+table(t1,useNA = 'always') # NA가 있거나 없거나 항상 표시
 
+t2 <- c(NULL, "a","a",NULL,"b","c",NA,NA) #봣는데 모를경우 NA 라고 한다 (결측치)
+t2
 
+table(t2)
+table(t2,useNA = 'no')    # NA를 표시금지 (default)
+table(t2,useNA = 'ifany') # NA가 있으면 표시
+table(t2,useNA = 'always') # NA가 있거나 없거나 항상 표시
 
+### 8) NULL/NA/NaN/Inf
 
+# 8-1) NaN / Inf (Infinite)
 
+log(100)
+log(-100) #err
 
+#감당이 가능한 범위는 [계산가능범위] (-10^308 ~ 10^309 까지다)
+# 1e+05 / 1 * 10^5  의미
+10^5
+# 1e+100 / 1 * 10^100  의미
+10^100
+10^200
+10^300
+10^309 # Inf 감당하기 어렵다는 의미
+-10^309 # -Inf 감당하기 어렵다는 의미다. 
 
-
+# 8-2 ) NULL / NA
 
 
 
