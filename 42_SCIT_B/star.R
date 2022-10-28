@@ -63,7 +63,7 @@ read.csv("dts/이승범.csv")
 read.csv("./dts/이승범.csv")
 
 # 2) wd changed
-setwd("E:/PR/R_Works/42_SCIT_B/dts")
+setwd("C:/PR/R_Works/42_SCIT_B/dts")
 getwd()
 #메인 작업폴더에 있는csv찾는법
 read.csv("../강흥석.csv")
@@ -750,6 +750,45 @@ log(-100) #err
 -10^309 # -Inf 감당하기 어렵다는 의미다. 
 
 # 8-2 ) NULL / NA
+n1 <- c(1,2,3,NULL,NULL)
+n1;length(n1)
+
+n2 <- c(1,2,3,NA,NA)
+n2;length(n2)
+
+3+NA;3+NULL
+n1;n1+1;n1+NA;n1+NULL
+n2;n2+1;n2+NA;n2+NULL
+
+n1
+sum(n1)
+n2
+#NA는 제거하고 더해라 라는 의미
+sum(n2, na.rm = T)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
